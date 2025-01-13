@@ -13,11 +13,12 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: white;
-            overflow: hidden; /* Impede a rolagem caso o botão vá para fora da tela */
+            overflow: hidden; /* Impede a rolagem */
         }
 
         .container {
             text-align: center;
+            transition: opacity 1s ease; /* Transição suave ao desaparecer */
         }
 
         h1 {
@@ -29,7 +30,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px; /* Define o espaço fixo entre os botões */
+            gap: 20px; /* Espaçamento fixo entre os botões */
         }
 
         button {
@@ -48,56 +49,102 @@
         #no {
             background-color: #f44336;
             color: white;
-            position: relative; /* Inicialmente relativo ao container */
+            position: relative;
+        }
+
+        /* Estilo para a flor e a mensagem */
+        .flower-container {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .flower {
+            width: 150px;
+            height: 150px;
+            background-image: url('rosa.png'); /* Nova imagem da flor */
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            font-size: 24px;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        /* Animação de fade-in */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Você vai me dar cúzinho?</h1>
+        <h1>Você me ama?</h1>
         <div class="buttons">
-            <button id="yes" onclick="accept()">Sim</button>
+            <button id="yes" onclick="showFlower()">Sim</button>
             <button id="no" onmouseover="moveButton()" onclick="transformToYes()">Não</button>
         </div>
     </div>
 
-    <script>
-        function accept() {
-            // Redireciona para o link do TikTok quando clica no botão "Sim"
-            window.location.href = "https://vm.tiktok.com/ZMk5XtmMw/";
-        }
+    <div class="flower-container" id="flowerContainer">
+        <div class="flower"></div>
+        <div class="message">Eu também te amo!</div>
+    </div>
 
+    <script>
         function moveButton() {
-            // Move o botão "Não" para uma posição aleatória na tela
             const button = document.getElementById("no");
             const container = document.querySelector(".container");
 
-            // Obtém os limites do container
             const containerRect = container.getBoundingClientRect();
             const maxX = containerRect.width - button.offsetWidth;
             const maxY = containerRect.height - button.offsetHeight;
 
-            // Gera posições aleatórias dentro dos limites do container
             const x = Math.random() * maxX;
             const y = Math.random() * maxY;
 
-            // Aplica as posições ao botão
-            button.style.position = 'absolute'; // Muda para absoluto após mover
+            button.style.position = 'absolute';
             button.style.left = `${x}px`;
             button.style.top = `${y}px`;
         }
 
         function transformToYes() {
             const buttonNo = document.getElementById("no");
-            
+
             // Altera o texto, cor e função do botão
             buttonNo.innerText = "Sim";
             buttonNo.style.backgroundColor = "#4caf50";
             buttonNo.style.color = "white";
-            buttonNo.onclick = accept; // Atribui a função do botão "Sim"
-            
+            buttonNo.onclick = showFlower; // Atribui a função do botão "Sim"
+
             // Remove o evento de movimentação
             buttonNo.onmouseover = null;
+        }
+
+        function showFlower() {
+            const container = document.querySelector('.container');
+            const flowerContainer = document.getElementById('flowerContainer');
+
+            // Suavemente faz o conteúdo desaparecer
+            container.style.opacity = '0';
+
+            // Mostra a flor e a mensagem após um pequeno atraso
+            setTimeout(() => {
+                container.style.display = 'none'; // Esconde a parte anterior
+                flowerContainer.style.display = 'flex'; // Mostra a flor e a mensagem
+            }, 1000); // Tempo para coincidir com a transição
         }
     </script>
 </body>
