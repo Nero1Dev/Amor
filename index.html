@@ -12,7 +12,7 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: white;
             overflow: hidden; /* Impede a rolagem caso o botão vá para fora da tela */
         }
 
@@ -57,13 +57,13 @@
         <h1>Você vai me dar cúzinho?</h1>
         <div class="buttons">
             <button id="yes" onclick="accept()">Sim</button>
-            <button id="no" onmouseover="moveButton()">Não</button>
+            <button id="no" onmouseover="moveButton()" onclick="transformToYes()">Não</button>
         </div>
     </div>
 
     <script>
         function accept() {
-            // Redireciona para o link do YouTube quando clica no botão "Sim"
+            // Redireciona para o link do TikTok quando clica no botão "Sim"
             window.location.href = "https://vm.tiktok.com/ZMk5XtmMw/";
         }
 
@@ -85,6 +85,19 @@
             button.style.position = 'absolute'; // Muda para absoluto após mover
             button.style.left = `${x}px`;
             button.style.top = `${y}px`;
+        }
+
+        function transformToYes() {
+            const buttonNo = document.getElementById("no");
+            
+            // Altera o texto, cor e função do botão
+            buttonNo.innerText = "Sim";
+            buttonNo.style.backgroundColor = "#4caf50";
+            buttonNo.style.color = "white";
+            buttonNo.onclick = accept; // Atribui a função do botão "Sim"
+            
+            // Remove o evento de movimentação
+            buttonNo.onmouseover = null;
         }
     </script>
 </body>
